@@ -4,16 +4,24 @@ Python网络编程
 	import socket	#关于套接字的包
 	
 	#建立一个连接	
-	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)   
+	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)   #两个参数为：通信类型，协议类型
 			SOCK_STREAM： 提供面向连接的稳定数据传输，即TCP协议;
 			SOCK_DGRAM： 使用不连续不可靠的数据包连接,及UDP协议。
 	s.connect((host,port)) 		#host可以使用IP地址或者网址
 
+	这里对于1024一下的端口号是有固定用途的，port=socket.getservbyname（“http”，“tcp”）,这个函数可以查找这些协议使用的端口号
+	
+	#连接的一些属性
+	s.getsockname()#本地IP地址与端口
+	s.getpeername()#远程IP地址和端口
+
 	#基本的服务器操作
-	host=‘’  port=1024+n    #host选空，表示可以接收所有的连接请求
-	s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)  函数用于任意类型、任意状态套接口的设置选项值(百科这个函数)
-	s.bind((host,port))		#绑定监听套解字
-	s.listen(n)			#开始监听（最多n个连接）
+	A.建立socket对象：host=‘’  port=1024+n    #host选空，表示可以接收所有的连接请求
+	B.设置socket对象：
+		s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)  函数用于任意类型、任意状态套接口的设置选项值(百科这个函数)
+		对应的有getsockopt这个函数获得socket的当前设置
+	C.绑定socket对象：s.bind((host,port))		#绑定监听套解字，通常host为空，port大于1024
+	D.开始监听连接：s.listen(n)			#开始监听（最多n个连接）
 	clientsock,clientaddr =s.accept()  #收到一个连接
 
 
