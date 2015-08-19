@@ -1,0 +1,72 @@
+Python网络编程
+
+1.python Socket
+	import socket	#关于套接字的包
+	
+	#建立一个连接	
+	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)   
+			SOCK_STREAM： 提供面向连接的稳定数据传输，即TCP协议;
+			SOCK_DGRAM： 使用不连续不可靠的数据包连接,及UDP协议。
+	s.connect((host,port)) 		#host可以使用IP地址或者网址
+
+	#基本的服务器操作
+	host=‘’  port=1024+n    #host选空，表示可以接收所有的连接请求
+	s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)  函数用于任意类型、任意状态套接口的设置选项值(百科这个函数)
+	s.bind((host,port))		#绑定监听套解字
+	s.listen(n)			#开始监听（最多n个连接）
+	clientsock,clientaddr =s.accept()  #收到一个连接
+
+
+	#接收与发送
+	s.sendall(buf)	
+	buf=s.recv(n)	#n表示一次接受的字符书
+
+	#将套接字转换位文件流，像文本操作一样读写
+	fd=s.makefile("rw",0)	#后面这个0表示等待时间
+	这是可以用fd.write(buf)发送
+	或者向下面这样读写
+	for line in fd.readlines():
+		print line
+
+	#注意要关闭这个文件流与套接字 fd.close()   s.close()
+
+
+
+
+
+2.一些高级接口
+	
+	import gopherlib,sys
+	host=sys.argv[1]
+	filename=sys.argv[2]
+
+	f=gopherlib.send_selector(file,host)
+	for line in f.readlines():
+		print line
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
