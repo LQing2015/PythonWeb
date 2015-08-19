@@ -13,10 +13,9 @@ filename=sys.argv[2]#我们要请求的文件
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.connect((host,port))
 
-s.sendall(filename+"\r\n")#向服务器发送请求！！
+fd=s.makefile('rw',0)#这个函数把s变成了一个类似文本流一样的东西
 
-while 1:
-	buf=s.recv(2048)#接受内容
-	if not len(buf):
-		break
-	sys.stdout.write(buf)#输出到stdout
+fd.write(filename+"\r\n")
+
+for line in fd.readlines():
+	sys.stdout.write(line)
